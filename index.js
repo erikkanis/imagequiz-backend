@@ -19,4 +19,11 @@ application.get('/sub/:n/:m', (request, response) => {
     response.send(`${n} - ${m} = ${sum}`);
 });
 
+application.post('/register', (request, response) => {
+    let name = request.body.name;
+    let email = request.body.email;
+    let password = request.body.password;
+    api.addCustomer(name, email, password);
+});
+
 application.listen(port, () => console.log('Listening on port ' + port));
