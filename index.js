@@ -12,4 +12,11 @@ application.get('/add/:n/:m', (request, response) => {
     response.send(`${n} + ${m} = ${sum}`);
 });
 
+application.get('/sub/:n/:m', (request, response) => {
+    let n = Number(request.params.n);
+    let m = Number(request.params.m);
+    let sum = api.sub(n, m);
+    response.send(`${n} - ${m} = ${sum}`);
+});
+
 application.listen(port, () => console.log('Listening on port ' + port));
