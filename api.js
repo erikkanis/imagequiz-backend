@@ -1,7 +1,4 @@
-var { customers } = require('./data_tier/customers');
-var { flowers } = require('./data_tier/flowers');
-var { quizzes } = require('./data_tier/data');
-var { scores } = require('./data_tier/scores');
+const db  = require('./data_tier/db.js');
 
 let add = (n, m) => {
     return n + m;
@@ -12,57 +9,65 @@ let sub = (n, m) => {
 }
 
 let getFlowers = () => {
-    let flowerName=[];
-    for(let i = 0; i < flowers.length; i++){
-        flowerName.push(flowers[i].name);
-    }
-    return flowerName;
+    return db.getFlowers();
 }
 
 let getQuizzes = () => {
-    return quizzes;
+    return db.getQuizzes();
 }
 
-let getQuizID = (id) => {
-    return quizzes[id];
+let getQuiz = (id) => {
+    return db.getQuiz(id);
 }
 
 let addCustomer = (name, email, password) => {
-    let alreadyExist = customers.find(x=> x.email.toLowerCase() === email.toLowerCase());
-    if(alreadyExist){
-        return true;
-    }
-    customers.push({id: customers.length + 1, name: name, email: email, password: password});
-    return false;
+    return db.addCustomer(name, email, password);
 }
 
-let customerLogin = ( email, password) => {
-    let isValid = customers.find(x => x.email.toLowerCase() === email.toLowerCase() && x.password == password);
-    if(isValid){
-        return true;
-    }
-    return false;
+let login = (email, password) => {
+    return db.login(email, password);
 }
 
-let addScore = (quizTaker, quizID, score) => {
-    scores.push({quizTaker, quizID, score});
+let getCustomers = () => {
+    return db.getCustomers();
 }
 
-let checkUserScore = (quizTaker, quizID) => {
-    for(let i = 0; i < scores.length; i++ ){
-        if(scores[i] === quizTaker && scores[i].quizID === quizID) {
-            return scores[i].score;
-        }
-    }
-    return -1;
+let addQuestion = (picture, choices, answer) => {
+    return db.addQuestion(picture, choices, answer);
 }
 
-exports.checkUserScore = checkUserScore;
-exports.addScore = addScore;
-exports.getQuizID = getQuizID;
-exports.getQuizzes = getQuizzes;
-exports.getFlowers = getFlowers;
-exports.customerLogin = customerLogin;
+let addCategory = (name) => {
+    return db.addCategory(name);
+}
+
+let addQuiz = (name, category_id) => {
+    return db.addQuiz(name, category_id);
+}
+
+let addQuestionToQuiz = (quiz_id, question_id) => {
+    return db.addQuestionToQuiz(quiz_id, question_id);
+}
+
+let addScore = (quizTaker, quizId, score) => {
+    return db.addScore(quizTaker, quizId, score);
+}
+
+let checkScore = (quizTaker, quizId) => {
+    return db.checkScore(quizTaker, quizId);
+}
+
+
+exports.getCustomers = getCustomers;
 exports.addCustomer = addCustomer;
+exports.login = login;
+exports.getFlowers = getFlowers;
+exports.getQuizzes = getQuizzes;
+exports.addCategory = addCategory;
+exports.getQuiz = getQuiz;
+exports.addQuiz = addQuiz;
+exports.addQuestion = addQuestion;
+exports.addQuestionToQuiz = addQuestionToQuiz;
+exports.addScore = addScore;
+exports.checkScore = checkScore;
 exports.add = add;
 exports.sub = sub;
