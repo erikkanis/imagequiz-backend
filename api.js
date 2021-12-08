@@ -24,7 +24,7 @@ let addCustomer = (name, email, password) => {
     return db.addCustomer(name, email, password);
 }
 
-let login = (email, password) => {
+let customerLogin = (email, password) => {
     return db.login(email, password);
 }
 
@@ -59,7 +59,7 @@ let checkScore = (quizTaker, quizId) => {
 
 exports.getCustomers = getCustomers;
 exports.addCustomer = addCustomer;
-exports.login = login;
+exports.customerLogin = customerLogin;
 exports.getFlowers = getFlowers;
 exports.getQuizzes = getQuizzes;
 exports.addCategory = addCategory;

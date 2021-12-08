@@ -1,10 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const api = require('./api');
 
 const application = express();
 const port = process.env.PORT || 4002;
 
 application.use(express.json());
+application.use(cors());
 
 //add test function
 application.get('/add/:n/:m', (request, response) => {
@@ -56,7 +58,7 @@ application.post('/login', (request, response) => {
     if(isValid) {
         response.json({message: 'Login successful'});
     } else {
-        response.status(404).json({message: 'User not found'});
+        response.status(404).json({message: 'Login not successful'});
     }
 });
 
