@@ -1,4 +1,4 @@
-require("dotenv").config({path:"../.env"});
+require("dotenv").config({ path: "../.env" });
 const { Pool } = require('pg');
 const fs = require('fs');
 const { quizzes } = require('./data');
@@ -6,8 +6,8 @@ let create_db_structure_sql = fs.readFileSync('db.sql').toString();
 const { flowers } = require('./flowers');
 
 
-const connectionString = 
-`postgres://${process.env.DATABASEUSERNAME}:${process.env.DATABASEPASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}`;
+const connectionString =
+    `postgres://${process.env.DATABASEUSERNAME}:${process.env.DATABASEPASSWORD}@${process.env.HOST}:${process.env.DATABASEPORT}/${process.env.DATABASE}`;
 
 console.log(connectionString);
 const connection = {
@@ -18,8 +18,8 @@ const connection = {
 const pool = new Pool(connection);
 let getInsertQuizzesSql = (categoryId) => {
     let sql = '';
-    for(quiz of quizzes) {
-       sql += getInsertQuizSql(categoryId, quiz)
+    for (quiz of quizzes) {
+        sql += getInsertQuizSql(categoryId, quiz)
     }
     return sql;
 }
@@ -33,8 +33,8 @@ let getInsertFlowersSql = () => {
     }
     sql += values.join(", ");
     return sql;
-  };
-  
+};
+
 
 let getInsertQuizSql = (categoryId, quiz) => {
     let sql = '';

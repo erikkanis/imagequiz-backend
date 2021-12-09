@@ -45,8 +45,13 @@ let addQuiz = (name, category_id) => {
     return pool.query('insert into imagequiz.quiz(name, category_id) values ($1, $2)', [name, category_id]);
 }
 
-let getQuiz = (quiz_id) => {
-    return pool.query(`select * from imagequiz.quiz where id = $1`, [quiz_id])
+let getQuiz = (quiz_name) => {
+    return pool.query(`select q2.* from imagequiz.quiz q
+    inner join imagequiz.quiz_question qq
+    on q.id = qq.quiz_id 
+    inner join imagequiz.question q2
+    on qq.question_id = q2.id
+    where q.name = $1`, [quiz_name])
     .then(x => x.rows);
 }
 
@@ -65,11 +70,9 @@ let addQuestionToQuiz = (quiz_id, question_id) => {
 }
 
 let addScore = (quizTaker, quizId, score) => {
-    return pool.query(`select * from imagequiz.customer where email = $1`, [quizTaker.toLowerCase()])
-    .then(x => {
-        pool.query(`insert into imagequiz.score(customer_id, quiz_id, score) values ($1, $2, $3)`, [x.rows[0].id, quizId, score])
-        .then(x => x.rows);
-    });
+    return pool.query(`insert into imagequiz.score(customer_id, quiz_id, score) values ((select id from imagequiz.customer where email = $1), 
+    (select id from imagequiz.quiz where name = $2),
+    $3)`,[quizTaker, quizName, score]);
 }
 
 let checkScore = (quizTaker, quizId) => {

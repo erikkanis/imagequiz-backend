@@ -16,8 +16,8 @@ let getQuizzes = () => {
     return db.getQuizzes();
 }
 
-let getQuiz = (id) => {
-    return db.getQuiz(id);
+let getQuiz = (name) => {
+    return db.getQuiz(name);
 }
 
 let addCustomer = (name, email, password) => {

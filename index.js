@@ -92,7 +92,7 @@ application.get('/quizzes', (request, response) => {
     })
 });
 
-application.get('/quiz/:id', (request, response) => {
+application.get('/quiz/:name', (request, response) => {
     api.getQuiz(request.params.id)
     .then(x => {
         response.json(x);
@@ -108,14 +108,9 @@ application.post('/score', (request, response) => {
     let quizId = request.body.quizId;
     let score = request.body.score;
     api.addScore(quizTaker, quizId, score)
-    .then(x => {
-        response.json({message: 'Score has been updated.'});
-    })
-    .catch(e => {
-        console.log(e);
-        response.status(e).json({message: 'ERROR'});
+    .then(x => response.json({message: 'Score has been updated.'}))
+    .catch((e) => response.status(500).json({message: 'ERROR'}));
     });
-});
 
 application.get('/scores/:quiztaker/:quizid', (request, response) => {
     let quizTaker = request.params.quiztaker;
